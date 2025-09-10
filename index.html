@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pwsaw Portfolio</title>
+  <meta name="description" content="Showcasing my portfolio, blog, and tech insights.">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
+
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur sticky top-0 z-50 shadow">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="font-extrabold text-xl">Pwsaw<span class="text-indigo-600">.Portfolio</span></h1>
+      <nav class="hidden md:flex gap-6 text-sm font-medium">
+        <a href="#portfolio" class="hover:text-indigo-600">Portfolio</a>
+        <a href="#blog" class="hover:text-indigo-600">Blog</a>
+        <a href="#news" class="hover:text-indigo-600">Tech News</a>
+        <a href="#contact" class="hover:text-indigo-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-6 py-20 text-center">
+    <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">
+      Timeless <span class="text-indigo-600">Digital Portfolio</span> 🚀
+    </h2>
+    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+      Showcasing my best projects, insights, and the latest in technology — all in one place.
+    </p>
+    <div class="mt-6 flex justify-center gap-4">
+      <a href="#portfolio" class="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">View Work</a>
+      <a href="#contact" class="px-6 py-3 bg-white border rounded-xl shadow hover:bg-gray-50 transition">Contact Me</a>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio" class="max-w-6xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold mb-8">Portfolio</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Project Card -->
+      <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
+        <img src="assets/project1.png" alt="Project 1" class="h-40 w-full object-cover">
+        <div class="p-4">
+          <h3 class="font-semibold text-lg">Project One</h3>
+          <p class="text-sm text-gray-600">Short description about this project...</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
+        <img src="assets/project2.png" alt="Project 2" class="h-40 w-full object-cover">
+        <div class="p-4">
+          <h3 class="font-semibold text-lg">Project Two</h3>
+          <p class="text-sm text-gray-600">Another description goes here...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog" class="bg-white py-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-8">Blog</h2>
+      <div class="space-y-6">
+        <article class="p-6 rounded-xl border shadow-sm hover:shadow-md transition">
+          <h3 class="font-semibold text-xl">Blog Post Title</h3>
+          <p class="text-gray-600 text-sm mt-2">
+            Short summary of the blog article. Click to read more...
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech News -->
+  <section id="news" class="max-w-6xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold mb-8">Trending Tech News</h2>
+    <div id="newsList" class="space-y-4">
+      <p class="text-gray-500">Loading latest news...</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="bg-indigo-600 text-white py-16">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Contact Me</h2>
+      <p>Email: <a href="mailto:basumatarypwsaw@gmail.com" class="underline">basumatarypwsaw@gmail.com</a></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-xs text-gray-500 bg-white">
+    © <span id="year"></span> Pwsaw Portfolio — Timeless Design
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    async function loadNews(){
+      const newsList = document.getElementById('newsList');
+      try {
+        const url = 'https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=technology&hl=en-US';
+        const res = await fetch(url);
+        const data = await res.json();
+        newsList.innerHTML = data.items.slice(0,5).map(item =>
+          `<a href="${item.link}" target="_blank" class="block bg-white p-4 rounded-xl shadow hover:shadow-md transition">
+            <div class="font-medium">${item.title}</div>
+            <div class="text-xs text-gray-500">${new Date(item.pubDate).toLocaleDateString()}</div>
+          </a>`
+        ).join('');
+      } catch(e) {
+        newsList.innerHTML = "<p class='text-red-500'>Failed to load news.</p>";
+      }
+    }
+    loadNews();
+  </script>
+</body>
+</html>
